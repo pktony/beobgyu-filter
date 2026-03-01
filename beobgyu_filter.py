@@ -66,8 +66,16 @@ with HandTracker(num_hands=1, min_detection_confidence=0.5, min_tracking_confide
 
                 gesture_name = LABEL_NAME.get(predicted_label, "unknown")
 
-                tracker.draw_landmarks(frame, hand_landmarks)
-                box_color = (0, 255, 0)
+                # 가운데 손가락 감지 시 모자이크 처리
+                if predicted_label == GESTURE_MAP["beobgyu"]:
+                    roi = frame[y1:y2, x1:x2]
+                    roi = cv2.resize(roi, (10, 10), interpolation=cv2.INTER_LINEAR)
+                    roi = cv2.resize(roi, (x2 - x1, y2 - y1), interpolation=cv2.INTER_NEAREST)
+                    frame[y1:y2, x1:x2] = roi
+                    box_color = (0, 0, 255)
+                else:
+                    tracker.draw_landmarks(frame, hand_landmarks)
+                    box_color = (0, 255, 0)
 
                 # bbox + 제스처 이름 표시
                 cv2.rectangle(frame, (x1, y1), (x2, y2), box_color, 2)
