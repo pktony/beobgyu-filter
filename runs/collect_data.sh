@@ -1,0 +1,1 @@
+uv run collect_dataset.py "$1"
