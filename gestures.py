@@ -8,4 +8,5 @@ GESTURE_MAP = {
     "three": 6,
     "four": 7,
     "five": 8,
+    "fist": 9,
 }
